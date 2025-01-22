@@ -1,0 +1,32 @@
+<%- include('partial/header') %>
+<%- include('partial/wardenfunction') %>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center mb-0">Warden Profile</h2>
+        </div>
+        <div class="card-body text-center">
+          <% if (warden.image) { %>
+            <img src="<%= warden.image %>" class="rounded-circle mb-3" style="height:150px; width:150px;" alt="Profile Image">
+          <% } %>
+          
+          <h1 class="card-title"><strong>Name:</strong> <%= warden.name %></h1>
+          <div class="card-text">
+            <h4><strong>Type:</strong> <%= warden.type %></h4>
+            <h4>Username: <%= warden.username %></h4>
+            <h4>Hostel: <%= warden.hostel %></h4>
+          </div>
+          
+          <div class="mt-3">
+            <a href="/warden/<%= warden._id %>/edit" class="btn btn-warning">Edit Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partial/footer') %>

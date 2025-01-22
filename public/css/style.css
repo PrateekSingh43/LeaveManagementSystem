@@ -1,0 +1,21 @@
+/* ...existing code... */
+
+.profile-info p {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.action-buttons {
+    margin-top: 2rem;
+}
+
+.action-buttons .btn {
+    margin: 0 0.5rem;
+}
+
+.rounded-circle {
+    border: 3px solid #007bff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ...existing code... */

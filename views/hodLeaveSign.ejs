@@ -1,0 +1,59 @@
+<%- include('partial/header') %>
+
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>Leave Requests - <%= hod.department %> Department</h3>
+    </div>
+    <div class="card-body">
+      <% if (students && students.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-hover">
+            <thead class="thead-dark">
+              <tr>
+                <th>Student Name</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Days</th>
+                <th>Reason</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% students.forEach(function(student) { %>
+                <% if (student.leaves && student.leaves.length > 0) { %>
+                  <% student.leaves.forEach(function(leave) { %>
+                    <tr>
+                      <td><%= student.name %></td>
+                      <td><%= moment(leave.from).format('DD/MM/YYYY') %></td>
+                      <td><%= moment(leave.to).format('DD/MM/YYYY') %></td>
+                      <td><%= leave.days %></td>
+                      <td><%= leave.reason %></td>
+                      <td>
+                        <span class="badge <%= leave.status === 'pending' ? 'bg-warning' : 
+                          leave.status === 'approved' ? 'bg-success' : 'bg-danger' %>">
+                          <%= leave.status %>
+                        </span>
+                      </td>
+                      <td>
+                        <% if (leave.status === "pending") { %>
+                          <a href="/hod/<%= hod._id %>/leave/<%= student._id %>/info" 
+                             class="btn btn-sm btn-primary">Review</a>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } %>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="alert alert-info">No leave requests found.</div>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<%- include('partial/footer') %>

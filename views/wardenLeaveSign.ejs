@@ -1,0 +1,62 @@
+<%- include('partial/header') %>
+<%- include('partial/wardenfunction') %>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2>Leave Applications - <%= warden.hostel %> Hostel</h2>
+        </div>
+        <div class="card-body">
+            <% if(students && students.length > 0) { %>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Student Name</th>
+                                <th>Department</th>
+                                <th>Subject</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th>Days</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% students.forEach(function(student) { %>
+                                <% if(student.leaves && student.leaves.length > 0) { %>
+                                    <% student.leaves.forEach(function(leave) { %>
+                                        <tr>
+                                            <td><%= student.name %></td>
+                                            <td><%= student.department %></td>
+                                            <td><%= leave.subject %></td>
+                                            <td><%= moment(leave.from).format('DD/MM/YYYY') %></td>
+                                            <td><%= moment(leave.to).format('DD/MM/YYYY') %></td>
+                                            <td><%= leave.days %></td>
+                                            <td>
+                                                <span class="badge badge-<%= leave.wardenstatus === 'pending' ? 'warning' : 
+                                                    leave.wardenstatus === 'approved' ? 'success' : 'danger' %>">
+                                                    <%= leave.wardenstatus %>
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <% if(leave.wardenstatus === 'pending') { %>
+                                                    <a href="/warden/<%= warden._id %>/leave/<%= student._id %>/info" 
+                                                       class="btn btn-primary btn-sm">Review</a>
+                                                <% } %>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } %>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } else { %>
+                <div class="alert alert-info">No leave applications found.</div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<%- include('partial/footer') %>

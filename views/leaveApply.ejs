@@ -1,0 +1,56 @@
+<%- include('./partial/header') %>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h3 class="text-center mb-0">Apply for Leave</h3>
+        </div>
+        <div class="card-body">
+          <form action="/student/<%= student._id %>/apply" method="POST">
+            <div class="mb-3">
+              <label for="subject" class="form-label">Subject</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                id="subject" 
+                name="leave[subject]" 
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="from" class="form-label">From Date</label>
+              <input 
+                type="date" 
+                class="form-control" 
+                id="from" 
+                name="leave[from]" 
+                required
+              >
+            </div>
+
+            <div class="mb-3">
+              <label for="to" class="form-label">To Date</label>
+              <input 
+                type="date" 
+                class="form-control" 
+                id="to" 
+                name="leave[to]" 
+                required
+              >
+            </div>
+
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary">Submit Leave Application</button>
+              <a href="/student/<%= student._id %>" class="btn btn-secondary">Back to Profile</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./partial/footer') %>

@@ -1,0 +1,43 @@
+<%- include('partial/header') %>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- HOD Profile Section -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body text-center">
+          <img src="<%= hod.image %>" class="rounded-circle mb-3" width="150" height="150">
+          <h3><%= hod.name %></h3>
+          <p class="text-muted">Head of Department</p>
+          <p><strong>Department:</strong> <%= hod.department %></p>
+          <a href="/hod/<%= hod._id %>/edit" class="btn btn-primary">Edit Profile</a>
+          <a href="/hod/<%= hod._id %>/leave" class="btn btn-info">View Leave Requests</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dashboard Section -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">
+          <h4>Dashboard</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <div class="card bg-primary text-white">
+                <div class="card-body">
+                  <h5>Department</h5>
+                  <h3><%= hod.department %></h3>
+                </div>
+              </div>
+            </div>
+            <!-- Add more dashboard widgets as needed -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partial/footer') %>

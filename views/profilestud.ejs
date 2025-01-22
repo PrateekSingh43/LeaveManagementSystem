@@ -1,0 +1,30 @@
+<%- include('./partial/header') %>
+<%- include('./partial/studfunction') %>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-body text-center">
+          <% if (student.image) { %>
+            <img src="<%= student.image %>" class="rounded-circle mb-3" style="height:150px; width:150px;" alt="Profile Image">
+          <% } %>
+          
+          <h1 class="card-title"><strong>Name:</strong> <%= student.name %></h1>
+          <div class="card-text">
+            <h4><strong>Type:</strong> <%= student.type %></h4>
+            <h4>Username: <%= student.username %></h4>
+            <h4>Department: <%= student.department %></h4>
+            <h4>Hostel: <%= student.hostel %></h4>
+          </div>
+          
+          <div class="mt-3">
+            <a href="/student/<%= student._id %>/edit" class="btn btn-warning">Edit Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('./partial/footer') %>

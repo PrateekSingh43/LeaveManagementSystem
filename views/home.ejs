@@ -1,0 +1,39 @@
+<%- include('partial/header') %>
+
+<div class="home-container">
+    <div class="hero-section">
+        <h1>Leave Management System</h1>
+        <p>Efficiently manage and track leave requests</p>
+        <% if(!currentUser) { %>
+            <div class="auth-buttons">
+                <a href="/register" class="btn btn-primary">Register</a>
+                <a href="/student/login" class="btn btn-outline">Login</a>
+            </div>
+        <% } %>
+    </div>
+
+    <div class="features-section">
+        <div class="feature-card">
+            <i class="fas fa-user-graduate"></i>
+            <h3>Students</h3>
+            <p>Submit and track leave applications easily</p>
+            <a href="/student/login" class="btn btn-secondary">Student Portal</a>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-user-tie"></i>
+            <h3>HOD</h3>
+            <p>Review and manage department leave requests</p>
+            <a href="/hod/login" class="btn btn-secondary">HOD Portal</a>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-user-shield"></i>
+            <h3>Warden</h3>
+            <p>Manage hostel student leave requests</p>
+            <a href="/warden/login" class="btn btn-secondary">Warden Portal</a>
+        </div>
+    </div>
+</div>
+
+<%- include('partial/footer') %>

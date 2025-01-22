@@ -1,0 +1,38 @@
+<%- include('partial/header') %>
+<%- include('partial/wardenfunction') %>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="text-center">Warden Profile</h2>
+                </div>
+                <div class="card-body text-center">
+                    <img 
+                        src="<%= warden.image %>" 
+                        alt="Profile Image"
+                        class="rounded-circle mb-3"
+                        style="width: 150px; height: 150px; object-fit: cover;"
+                    />
+                    <h3 class="mb-3"><%= warden.name %></h3>
+                    <div class="profile-info mb-4">
+                        <p><strong>Role:</strong> <%= warden.type %></p>
+                        <p><strong>Username:</strong> <%= warden.username %></p>
+                        <p><strong>Hostel:</strong> <%= warden.hostel %></p>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="/warden/<%= warden._id %>/edit" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </a>
+                        <a href="/warden/<%= warden._id %>/leave" class="btn btn-primary">
+                            <i class="fas fa-list"></i> View Leave Applications
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partial/footer') %>
