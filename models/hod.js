@@ -1,46 +1,33 @@
-var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var passportLocalMongoose = require("passport-local-mongoose");
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
-var hodSchema = new mongoose.Schema({
-  name: String,
-  type: String,
-  username: String,
-  password: String,
-  department: String,
-  image: String,
-  leaves: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Leave"
-    }
-  ]
+const hodSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  type: { type: String, default: 'hod' },
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  department: { type: String, required: true },
+  image: { type: String, default: '/images/default-profile.jpg' }
 });
 
-hodSchema.plugin(passportLocalMongoose);
-var Hod = (module.exports = mongoose.model("Hod", hodSchema));
-
-module.exports.createHod = function(newHod, callback) {
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(newHod.password, salt, function(err, hash) {
-      newHod.password = hash;
-      newHod.save(callback);
-    });
-  });
+// Simplified password verification
+hodSchema.methods.verifyPassword = async function(candidatePassword) {
+  console.log('Verifying password:');
+  console.log('Candidate:', candidatePassword);
+  console.log('Stored hash:', this.password);
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  console.log('Match result:', isMatch);
+  return isMatch;
 };
 
-module.exports.getUserByUsername = function(username, callback) {
-  var query = { username: username };
-  Hod.findOne(query, callback);
-};
+// Pre-save middleware
+hodSchema.pre('save', function(next) {
+  if (!this.isModified('password')) return next();
+  
+  const salt = bcrypt.genSaltSync(10);
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
 
-module.exports.getUserById = function(id, callback) {
-  Hod.findById(id, callback);
-};
-
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-  bcrypt.compare(candidatePassword, hash, function(err, passwordFound) {
-    if (err) throw err;
-    callback(null, passwordFound);
-  });
-};
+const Hod = mongoose.model("Hod", hodSchema);
+module.exports = Hod;

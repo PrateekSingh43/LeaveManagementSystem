@@ -1,0 +1,49 @@
+<%- include('partial/header') %>
+
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header">
+      <h3>Review Leave Request</h3>
+    </div>
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <h4>Student Details</h4>
+          <p><strong>Name:</strong> <%= student.name %></p>
+          <p><strong>Department:</strong> <%= student.department %></p>
+          <p><strong>Username:</strong> <%= student.username %></p>
+        </div>
+        <div class="col-md-6">
+          <h4>Leave Details</h4>
+          <p><strong>From:</strong> <%= moment(leave.from).format('DD/MM/YYYY') %></p>
+          <p><strong>To:</strong> <%= moment(leave.to).format('DD/MM/YYYY') %></p>
+          <p><strong>Days:</strong> <%= leave.days %></p>
+          <p><strong>Reason:</strong> <%= leave.reason %></p>
+        </div>
+      </div>
+
+      <form action="/hod/<%= hod._id %>/leave/<%= student._id %>/review" method="POST">
+        <input type="hidden" name="hodId" value="<%= hod._id %>">
+        <input type="hidden" name="studentId" value="<%= student._id %>">
+        <input type="hidden" name="leaveId" value="<%= leave._id %>">
+        
+        <div class="row justify-content-center">
+          <div class="col-md-6 text-center">
+            <button type="submit" name="action" value="approve" class="btn btn-success mx-2">
+              <i class="fas fa-check"></i> Approve
+            </button>
+            <button type="submit" name="action" value="deny" class="btn btn-danger mx-2">
+              <i class="fas fa-times"></i> Deny
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="text-center mt-4">
+        <a href="/hod/<%= hod._id %>/leave" class="btn btn-secondary">Back to Leave Requests</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partial/footer') %>

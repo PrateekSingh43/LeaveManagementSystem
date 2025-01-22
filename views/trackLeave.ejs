@@ -1,76 +1,58 @@
-<% include ./partial/header %> <% include ./partial/studfunction %> 
-<div
-  class="col-sm-6"
-  style="    flex: 0 0 50%;
-max-width: 60%;
-margin-left: 431px;
-margin-top: -181px;  text-align: -webkit-center;"
->
-<div class="container" >
-    <table class="content-table"
-    style="margin: 50px auto;min-width:400px;width: 90%; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
-      <tr
-      style="background-color: rgb(9, 1, 19); border-radius: 5px 5px 0 0;overflow: hidden;  color: #ffffff;text-align: left; font-weight: bold;"
-      >
-        <th>
-          Subject
-        </th>
-        <th>
-          From
-        </th>
-        <th>To</th>
-        <th>Days</th>
-        <th>HOD Status</th>
-        <th>Warden Status</th>
-        <th>Final Status</th>
-        
-      </tr>
-      <%student.leaves.forEach(function(leave){%>
+<%- include('./partial/header') %>
+<%- include('./partial/studfunction') %>
 
-      <tr>
-        <td><%=leave.subject%></td>
-        <td><%=moment(leave.from).format('DD/MM/YYYY')%></td>
-        <td><%=moment(leave.to).format('DD/MM/YYYY')%></td>
-        <td><%=leave.days%></td>
-        <td><%=leave.status%></td>
-        <td><%=leave.wardenstatus%></td>
-        <%if(leave.status==="approved" && leave.wardenstatus==="approved"){%>
-         <%leave.finalstatus="approved"%>
-        <%}%>
-        <%if(leave.status==="denied" && leave.wardenstatus==="denied"){%>
-          <%leave.finalstatus="denied"%>
-         <%}%>
-         <%if(leave.status==="denied" && leave.wardenstatus==="approved"){%>
-          <%leave.finalstatus="denied"%>
-         <%}%>
-         <%if(leave.status==="approved" && leave.wardenstatus==="denied"){%>
-          <%leave.finalstatus="denied"%>
-         <%}%>
-        <td><%=leave.finalstatus%></td>
-      </tr>
-
-      <%})%>
-    </table>
+<div class="container mt-4">
+  <div class="col-md-9 mx-auto">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        <h3 class="mb-0">Leave Applications Status</h3>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>Subject</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Days</th>
+                <th>HOD Status</th>
+                <th>Warden Status</th>
+                <th>Final Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% student.leaves.forEach(function(leave) { %>
+                <tr>
+                  <td><%= leave.subject %></td>
+                  <td><%= moment(leave.from).format('DD/MM/YYYY') %></td>
+                  <td><%= moment(leave.to).format('DD/MM/YYYY') %></td>
+                  <td><%= leave.days %></td>
+                  <td><span class="badge bg-<%= leave.status === 'approved' ? 'success' : leave.status === 'denied' ? 'danger' : 'warning' %>">
+                    <%= leave.status %>
+                  </span></td>
+                  <td><span class="badge bg-<%= leave.wardenstatus === 'approved' ? 'success' : leave.wardenstatus === 'denied' ? 'danger' : 'warning' %>">
+                    <%= leave.wardenstatus %>
+                  </span></td>
+                  <td>
+                    <% 
+                      leave.finalstatus = 
+                        (leave.status === "approved" && leave.wardenstatus === "approved") ? "approved" :
+                        (leave.status === "denied" || leave.wardenstatus === "denied") ? "denied" :
+                        "pending";
+                    %>
+                    <span class="badge bg-<%= leave.finalstatus === 'approved' ? 'success' : leave.finalstatus === 'denied' ? 'danger' : 'warning' %>">
+                      <%= leave.finalstatus %>
+                    </span>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
-  </div>
-  
-
-
-
-
-
-
-
 </div>
 
-
-
-
-
-
-
-
-
-
-<% include
-./partial/footer %>
+<%- include('./partial/footer') %>

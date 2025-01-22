@@ -1,21 +1,32 @@
-<% include ./partial/header %> <% include ./partial/wardenfunction%>
+<%- include('partial/header') %>
+<%- include('partial/wardenfunction') %>
 
-
-<div class="col-sm-6" style="    flex: 0 0 50%;
-max-width: 50%;
-margin-left: 431px;
-margin-top: -251px;border: 1px solid pink ;  text-align: -webkit-center;">
-      <div class="thumbnail">
-        <img style="height:150px;width:150px;border-radius: 100%" src="<%=warden.image%>" />
-        <h1><strong>Name:</strong> <%=warden.name%></h1>
-        <h4><strong>Type:</strong><%=warden.type%></h4>
-
-        <h4>Username: <%=warden.username%></h4>
-        <h4>Hostel:<%=warden.hostel%></h4>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h2 class="text-center mb-0">Warden Profile</h2>
+        </div>
+        <div class="card-body text-center">
+          <% if (warden.image) { %>
+            <img src="<%= warden.image %>" class="rounded-circle mb-3" style="height:150px; width:150px;" alt="Profile Image">
+          <% } %>
+          
+          <h1 class="card-title"><strong>Name:</strong> <%= warden.name %></h1>
+          <div class="card-text">
+            <h4><strong>Type:</strong> <%= warden.type %></h4>
+            <h4>Username: <%= warden.username %></h4>
+            <h4>Hostel: <%= warden.hostel %></h4>
+          </div>
+          
+          <div class="mt-3">
+            <a href="/warden/<%= warden._id %>/edit" class="btn btn-warning">Edit Profile</a>
+          </div>
+        </div>
       </div>
-      <a class="btn btn-warning" href="/warden/<%=warden._id%>/edit">Edit</a>
     </div>
   </div>
 </div>
 
-<% include ./partial/footer %>
+<%- include('partial/footer') %>

@@ -2,113 +2,59 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title>Banasthali</title>
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Comfortaa&display=swap"
-      rel="stylesheet"
-    />
-
-    <link rel="stylesheet" href="/stylesheets/app.css" />
+    <title>Leave Management System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/main.css">
   </head>
   <body data-spy="scroll" data-target="#mainNavbar" data-offset="10">
-    <nav
-      id="mainNavbar"
-      class="navbar navbar-default navbar-expand-lg navbar-dark navbar-fixed-top"
-    >
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
-        <a class="navbar-brand" href="/">L.M.S</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <a class="navbar-brand" href="/">Leave Management</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul
-            class="navbar-nav ml-auto"
-            style=" list-style-type: none;
-          margin: 0;
-          padding: 0;
-          width: 363px;"
-          >
-            <% if(user){%>
-            <!-- <li><a href="#">Signed in as <%= user.type%></a></li> -->
-
-            <li class="nav-item">
-              <a class="nav-link " style="margin-left: 284px" href="/logout"
-                >Logout
-              </a>
-            </li>
-
-            <%}%> <% if(!user){%>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#scrollspy1">About Us </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register">Register </a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Login
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a class="dropdown-item" href="/student/login">Student</a>
-                </li>
-                <li><a class="dropdown-item" href="/hod/login">HOD</a></li>
-
-                <li>
-                  <a class="dropdown-item" href="/warden/login">Warden</a>
-                </li>
-              </ul>
-            </li>
-            <%}%>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <% if (typeof currentUser === 'undefined' || !currentUser) { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/register">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/student/login">Student Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/hod/login">HOD Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/warden/login">Warden Login</a>
+              </li>
+            <% } else { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+            <% } %>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="container">
-      <% if(error && error.length >0){%>
-      <div
-        class="alert alert-danger"
-        style="position: relative;top: 100px;"
-        role="alert"
-      >
-        <%= error %>
+    <% if (typeof error !== 'undefined' && error && error.length > 0) { %>
+      <div class="container mt-3">
+        <div class="alert alert-danger alert-dismissible fade show">
+          <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
       </div>
-      <% } %> <% if(success && success.length >0){%>
-      <div class="alert alert-success" style="top:100px;" role="alert">
-        <%= success %>
+    <% } %>
+    <% if (typeof success !== 'undefined' && success && success.length > 0) { %>
+      <div class="container mt-3">
+        <div class="alert alert-success alert-dismissible fade show">
+          <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
       </div>
-      <% } %>
-    </div>
+    <% } %>
   </body>
 </html>

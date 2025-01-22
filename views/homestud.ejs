@@ -1,55 +1,69 @@
-<% include ./partial/header %>
-<% include ./partial/studfunction %> 
-<div
-class="col-sm-6"
-style="    flex: 0 0 50%;
-max-width: 60%;
-margin-left: 431px;
-margin-top: -181px;  text-align: -webkit-center;"
->
-      <div class="thumbnail">
-        <img
-          style="height:150px;width:150px;border-radius: 100%"
-          src="<%=student.image%>"
-        />
-        <h1><strong>Name:</strong> <%=student.name%></h1>
-        <h4><strong>Type:</strong><%=student.type%></h4>
+<%- include('./partial/header') %>
 
-        <h4>Username: <%=student.username%></h4>
-        <h4>Department:<%=student.department%></h4>
-        <h4>Hostel: <%=student.hostel%></h4>
+<div class="container mt-4">
+  <h1 class="text-center mb-4">Welcome <%= student.name %></h1>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <% if (student.image) { %>
+          <img src="<%= student.image %>" class="card-img-top" alt="Profile Image">
+        <% } %>
+        <div class="card-body">
+          <h5 class="card-title"><%= student.name %></h5>
+          <p class="card-text">Department: <%= student.department %></p>
+          <p class="card-text">Hostel: <%= student.hostel %></p>
+          <a href="/student/<%= student._id %>" class="btn btn-info">View Profile</a>
+          <a href="/student/<%= student._id %>/apply" class="btn btn-primary">Apply Leave</a>
+          <a href="/student/<%= student._id %>/track" class="btn btn-secondary">Track Leave</a>
+        </div>
       </div>
     </div>
 
-    <div class="container" >
-      <table class="content-table"
-      style="margin: 50px auto;min-width:400px;width: 90%; box-shadow: 0 0 20px rgba(0,0,0,0.15);">
-        <tr  style="background-color: rgb(9, 1, 19); border-radius: 5px 5px 0 0;overflow: hidden;  color: #ffffff;text-align: left; font-weight: bold;"
-        >
-          <th>
-            Subject
-          </th>
-          <th>
-            From
-          </th>
-          <th>To</th>
-          <th>Days</th>
-          <th>Status</th>
-        </tr>
-        <%student.leaves.forEach(function(leave){%>
-
-        <tr>
-          <td><%=leave.subject%></td>
-          <td><%=moment(leave.from).format('DD/MM/YYYY')%></td>
-          <td><%=moment(leave.to).format('DD/MM/YYYY')%></td>
-          <td><%=leave.days%></td>
-          <td><%=leave.status%></td>
-        </tr>
-
-        <%})%>
-      </table>
+    <div class="col-md-9">
+      <h3>Your Leave Applications</h3>
+      <% if (student.leaves && student.leaves.length > 0) { %>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Days</th>
+                <th>HOD Status</th>
+                <th>Warden Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% student.leaves.forEach(function(leave) { %>
+                <tr>
+                  <td><%= leave.subject %></td>
+                  <td><%= moment(leave.from).format('YYYY-MM-DD') %></td>
+                  <td><%= moment(leave.to).format('YYYY-MM-DD') %></td>
+                  <td><%= leave.days %></td>
+                  <td>
+                    <span class="badge bg-<%= leave.status === 'approved' ? 'success' : leave.status === 'denied' ? 'danger' : 'warning' %>">
+                      <%= leave.status %>
+                    </span>
+                  </td>
+                  <td>
+                    <span class="badge bg-<%= leave.wardenstatus === 'approved' ? 'success' : leave.wardenstatus === 'denied' ? 'danger' : 'warning' %>">
+                      <%= leave.wardenstatus %>
+                    </span>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      <% } else { %>
+        <div class="alert alert-info">
+          No leave applications found.
+        </div>
+      <% } %>
     </div>
-
-    <% include ./partial/footer %>
   </div>
 </div>
+
+<%- include('./partial/footer') %>

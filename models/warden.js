@@ -1,40 +1,68 @@
-var mongoose = require("mongoose");
-var bcrypt = require("bcryptjs");
-var passportLocalMongoose = require("passport-local-mongoose");
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-var wardenSchema = new mongoose.Schema({
-  name: String,
-  type: String,
-  username: String,
-  password: String,
-  hostel: String,
-  image: String
+const wardenSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  username: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  hostel: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    default: 'warden'
+  },
+  image: {
+    type: String,
+    default: '/images/default-profile.jpg'
+  }
 });
 
-wardenSchema.plugin(passportLocalMongoose);
-var Warden = (module.exports = mongoose.model("Warden", wardenSchema));
+wardenSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) return next();
+  
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    next(err);
+  }
+});
 
-module.exports.createWarden = function(newWarden, callback) {
-  bcrypt.genSalt(10, function(err, salt) {
-    bcrypt.hash(newWarden.password, salt, function(err, hash) {
-      newWarden.password = hash;
-      newWarden.save(callback);
-    });
-  });
+// Update the password verification method
+wardenSchema.methods.verifyPassword = async function(candidatePassword) {
+  try {
+    return await bcrypt.compare(candidatePassword, this.password);
+  } catch (err) {
+    throw err;
+  }
 };
 
-module.exports.getUserByUsername = function(username, callback) {
-  var query = { username: username };
-  Warden.findOne(query, callback);
+// Add static authentication method
+wardenSchema.statics.authenticate = async function(username, password) {
+  const warden = await this.findOne({ username });
+  if (!warden) {
+    return { error: 'Warden not found' };
+  }
+
+  const isValid = await warden.verifyPassword(password);
+  if (!isValid) {
+    return { error: 'Invalid password' };
+  }
+
+  return { warden };
 };
 
-module.exports.getUserById = function(id, callback) {
-  Warden.findById(id, callback);
-};
-
-module.exports.comparePassword = function(candidatePassword, hash, callback) {
-  bcrypt.compare(candidatePassword, hash, function(err, passwordFound) {
-    if (err) throw err;
-    callback(null, passwordFound);
-  });
-};
+module.exports = mongoose.model('Warden', wardenSchema);
